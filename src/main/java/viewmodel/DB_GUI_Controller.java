@@ -43,6 +43,8 @@ public class DB_GUI_Controller implements Initializable {
     private TableColumn<Person, String> tv_fn, tv_ln, tv_department, tv_major, tv_email;
     private final DbConnectivityClass cnUtil = new DbConnectivityClass();
     private final ObservableList<Person> data = cnUtil.getData();
+    @FXML
+    private Button editBtn, deleteBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -54,10 +56,29 @@ public class DB_GUI_Controller implements Initializable {
             tv_major.setCellValueFactory(new PropertyValueFactory<>("major"));
             tv_email.setCellValueFactory(new PropertyValueFactory<>("email"));
             tv.setItems(data);
+
+            editBtn.setDisable(true);
+            deleteBtn.setDisable(true);
+
+            tv.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                boolean hasSelection = (newSelection != null);
+                editBtn.setDisable(!hasSelection);
+                deleteBtn.setDisable(!hasSelection);
+            });
+            first_name.textProperty().addListener((obs, oldVal, newVal) -> validateForm());
+           last_name.textProperty().addListener((obs, oldVal, newVal) -> validateForm());
+           email.textProperty().addListener((obs, oldVal, newVal) -> validateForm());
+            department.textProperty().addListener((obs, oldVal, newVal) -> validateForm());
+            major.textProperty().addListener((obs, oldVal, newVal) -> validateForm());
+           imageURL.textProperty().addListener((obs, oldVal, newVal) -> validateForm());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+private void validateForm() {
+    boolean isValid = !first_name.getText().isEmpty() && !last_name.getText().isEmpty() && !email.getText().isEmpty() && !department.getText().isEmpty() && !major.getText().isEmpty() && !imageURL.getText().isEmpty();
+}
 
     @FXML
     protected void addNewRecord() {
