@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -100,6 +101,9 @@ public class DB_GUI_Controller implements Initializable {
             last_name.textProperty().addListener((obs, oldVal, newVal) -> validateField(last_name, "^[A-Za-z//s]+$"));
             email.textProperty().addListener((obs, oldVal, newVal) -> validateField(email, "^[a-zA-Z0-9._%+-]+@farmingdale.edu$"));
 
+            newRowAddition();
+            editableColumns();
+            tv.setEditable(true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -359,5 +363,54 @@ public class DB_GUI_Controller implements Initializable {
         if (selectedFile != null) {
             statusLabel.setText("Data exported to CSV successfully");
         }
+    }
+    private void newRowAddition() {
+        tv.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 2 && tv.getSelectionModel().getSelectedItem() == null) {
+                Person newPerson = new Person("","","","","","");
+                data.add(newPerson);
+                tv.getSelectionModel().select(newPerson);
+                tv.edit(tv.getItems().size()-1,tv_fn);
+            }
+        });
+    }
+
+    private void editableColumns(){
+        tv_fn.setCellFactory(TextFieldTableCell.forTableColumn());
+        tv_ln.setCellFactory(TextFieldTableCell.forTableColumn());
+        tv_department.setCellFactory(TextFieldTableCell.forTableColumn());
+        tv_major.setCellFactory(TextFieldTableCell.forTableColumn());
+        tv_email.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        tv_fn.setOnEditCommit(event -> {
+            Person person = event.getRowValue();
+            person.setFirstName(event.getNewValue());
+            updatePersonInDatabase(person);
+        });
+        tv_ln.setOnEditCommit(event -> {
+            Person person = event.getRowValue();
+            person.setLastName(event.getNewValue());
+            updatePersonInDatabase(person);
+        });
+        tv_department.setOnEditCommit(event -> {
+            Person person = event.getRowValue();
+            person.setDepartment(event.getNewValue());
+            updatePersonInDatabase(person);
+        });
+        tv_major.setOnEditCommit(event -> {
+            Person person = event.getRowValue();
+            person.setMajor(event.getNewValue());
+            updatePersonInDatabase(person);
+        });
+        tv_email.setOnEditCommit(event -> {
+            Person person = event.getRowValue();
+            person.setEmail(event.getNewValue());
+            updatePersonInDatabase(person);
+        });
+    }
+
+    private void updatePersonInDatabase(Person person) {
+        cnUtil.editUser(person.getId(),person);
+        statusLabel.setText("Record updated successfully");
     }
 }
