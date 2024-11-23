@@ -2,8 +2,8 @@ module com.example.csc311_db_ui_semesterlongproject {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-    requires java.prefs;
     requires com.azure.storage.blob;
+    requires java.prefs;
 
     opens viewmodel;
     exports viewmodel;

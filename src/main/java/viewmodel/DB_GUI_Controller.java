@@ -14,6 +14,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
@@ -25,14 +31,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Person;
 import service.MyLogger;
+import static dao.DbConnectivityClass.status;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class DB_GUI_Controller implements Initializable {
 
@@ -60,7 +66,7 @@ public class DB_GUI_Controller implements Initializable {
     @FXML
     private Button addBtn, editBtn, deleteBtn;
     @FXML
-    private MenuItem editMenuItem, deleteMenuItem;
+    private MenuItem editItem, deleteItem;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,15 +82,15 @@ public class DB_GUI_Controller implements Initializable {
             editBtn.setDisable(true);
             deleteBtn.setDisable(true);
 
-            editMenuItem.setDisable(true);
-            deleteMenuItem.setDisable(true);
+            editItem.setDisable(true);
+            deleteItem.setDisable(true);
 
             tv.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
                 boolean hasSelection = (newSelection != null);
                 editBtn.setDisable(!hasSelection);
                 deleteBtn.setDisable(!hasSelection);
-                editMenuItem.setDisable(!hasSelection);
-                deleteMenuItem.setDisable(!hasSelection);
+                editItem.setDisable(!hasSelection);
+                deleteItem.setDisable(!hasSelection);
             });
 
             first_name.textProperty().addListener((obs, oldVal, newVal) -> validateForm());
@@ -146,12 +152,13 @@ public class DB_GUI_Controller implements Initializable {
 
     @FXML
     protected void clearForm() {
-        first_name.setText("");
-        last_name.setText("");
-        department.setText("");
-        major.setText("");
-        email.setText("");
-        imageURL.setText("");
+        first_name.clear();
+        last_name.clear();
+        department.clear();
+        majorComboBox.setValue(null);
+        email.clear();
+        imageURL.clear();
+        statusLabel.setText("");
     }
 
     @FXML
@@ -348,14 +355,43 @@ public class DB_GUI_Controller implements Initializable {
         FileChooser fc = new FileChooser();
         fc.setTitle("Import CSV File");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-        File selectedFile = fc.showOpenDialog(null);
-        if (selectedFile != null) {
-            statusLabel.setText("CSV file imported successfully");
+        File file = fc.showOpenDialog(img_view.getScene().getWindow());
+        if (file != null) {
+            try (Scanner sc = new Scanner(file)) {
+                sc.nextLine();
+                while (sc.hasNextLine()) {
+                    String line = sc.nextLine();
+                    if (!line.isEmpty()) {
+                        String[] parts = line.split(",");
+                        cnUtil.insertUser(new Person(parts[0], parts[1], parts[2], parts[3], parts[4], ""));
+                    }
+                }
+                statusLabel.setText("CSV file imported successfully.");
+                tv.setItems(cnUtil.getData());
+            } catch (FileNotFoundException e) {
+                statusLabel.setText("Error importing CSV: file not found.");
+            } catch (Exception e) {
+                statusLabel.setText("Error importing CSV: " + e.getMessage());
+            }
+        } else {
+            statusLabel.setText("No file selected");
         }
     }
 
+
     @FXML
-    protected void exportCSV() {
+    protected void exportCSV() throws IOException {
+        System.out.println("ExportCSV");
+        FileWriter fw = new FileWriter("src/main/resources/export.csv");
+        File file = new File("src/main/resources/export.csv");
+        file.createNewFile();
+
+        fw.write("firstname,lastname,department,major,email\n");
+        fw.write(cnUtil.stringAllUsers());
+
+        status = "Export to " + file.getAbsolutePath();
+        statusLabel.setText(status);
+        fw.close();
         FileChooser fc = new FileChooser();
         fc.setTitle("Export CSV File");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
@@ -412,5 +448,30 @@ public class DB_GUI_Controller implements Initializable {
     private void updatePersonInDatabase(Person person) {
         cnUtil.editUser(person.getId(),person);
         statusLabel.setText("Record updated successfully");
+    }
+    @FXML
+    protected void copyEntry(){
+        Person p = tv.getSelectionModel().getSelectedItem();
+        if (p != null){
+            tv.getSelectionModel().clearSelection();
+            Person copiedPerson = new Person(
+        p.getFirstName() +"_copy",
+                    p.getLastName() +"_copy",
+                    p.getDepartment(),
+                    p.getMajor(),
+                    generateUniqueEmail(p.getEmail()),
+                            p.getImageURL());
+        cnUtil.insertUser(copiedPerson);
+        data.add(copiedPerson);
+        statusLabel.setText("Copied user successfully");
+        tv.refresh();
+    } else{
+            statusLabel.setText("No user selected to copy");
+        }
+}
+
+private String generateUniqueEmail(String originalEmail) {
+    String [] parts = originalEmail.split("@");
+    return parts[0] + "_copy@" + parts[1];
     }
 }

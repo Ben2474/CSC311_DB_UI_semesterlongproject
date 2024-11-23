@@ -8,6 +8,7 @@ import service.MyLogger;
 import java.sql.*;
 public class DbConnectivityClass {
     final static String DB_NAME="CSC311_BD_TEMP";
+    public static String status = "";
     MyLogger lg= new MyLogger();
     final static String SQL_SERVER_URL = "jdbc:mysql://csc311thomasserver.mysql.database.azure.com";//update this server name
     final static String DB_URL = SQL_SERVER_URL+"/"+DB_NAME;//update this database name
@@ -147,6 +148,34 @@ public class DbConnectivityClass {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public String stringAllUsers(){
+        connectToDatabase();
+        try{
+            Connection conn = DriverManager.getConnection(DB_URL,USERNAME,PASSWORD);
+            String sql = "SELECT * FROM users ";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            String returnTo = "";
+            while(resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String first_name = resultSet.getString("first_name");
+                String last_name = resultSet.getString("last_name");
+                String department = resultSet.getString("department");
+                String major = resultSet.getString("major");
+                String email = resultSet.getString("email");
+
+                returnTo = returnTo + (first_name + "," + last_name + "," + department + "," + major + "," + email + "\n");
+            }
+            preparedStatement.close();
+            conn.close();
+            return returnTo;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void insertUser(Person person) {
