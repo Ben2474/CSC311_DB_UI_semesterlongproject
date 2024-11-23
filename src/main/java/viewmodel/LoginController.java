@@ -8,15 +8,26 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
-
 public class LoginController {
 
+    @FXML
+    private TextField userName;
+    @FXML
+    private PasswordField password;
+    @FXML
+    private Label statusLabel;
+
+    private static final String adminUsername = "csc311admin";
+    private static final String adminPassword = "farmingdale@26";
 
     @FXML
     private GridPane rootpane;
@@ -30,14 +41,13 @@ public class LoginController {
                         null
                 )
         );
-
-
         rootpane.setOpacity(0);
         FadeTransition fadeOut2 = new FadeTransition(Duration.seconds(10), rootpane);
         fadeOut2.setFromValue(0);
         fadeOut2.setToValue(1);
         fadeOut2.play();
     }
+
     private static BackgroundImage createImage(String url) {
         return new BackgroundImage(
                 new Image(url),
@@ -45,18 +55,31 @@ public class LoginController {
                 new BackgroundPosition(Side.LEFT, 0, true, Side.BOTTOM, 0, true),
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
     }
+
     @FXML
     public void login(ActionEvent actionEvent) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/db_interface_gui.fxml"));
-            Scene scene = new Scene(root, 900, 600);
-            scene.getStylesheets().add(getClass().getResource("/css/lightTheme.css").toExternalForm());
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        String inputUsername = userName.getText();
+        String inputPassword = password.getText();
+
+        if(inputUsername.equals(adminUsername) && inputPassword.equals(adminPassword)){
+            try{
+                Parent root = FXMLLoader.load(getClass().getResource("/view/db_interface_gui.fxml"));
+                Scene scene = new Scene(root,900,600);
+                scene.getStylesheets().add(getClass().getResource("/css/lightTheme.css").toExternalForm());
+                Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                window.setScene(scene);
+                window.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (statusLabel != null) {
+                statusLabel.setText("Invalid username or password");
+            } else {
+                System.err.println("Invalid username or password\"");
+            }
         }
+
     }
 
     public void signUp(ActionEvent actionEvent) {
@@ -71,6 +94,4 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-
-
 }
