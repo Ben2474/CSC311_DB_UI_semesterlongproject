@@ -1,6 +1,10 @@
 package viewmodel;
 
 import com.azure.storage.blob.BlobClient;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import dao.DbConnectivityClass;
 import dao.StorageUploader;
 import javafx.application.Platform;
@@ -33,12 +37,12 @@ import model.Person;
 import service.MyLogger;
 import static dao.DbConnectivityClass.status;
 
+
+
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 
 public class DB_GUI_Controller implements Initializable {
 
@@ -67,6 +71,9 @@ public class DB_GUI_Controller implements Initializable {
     private Button addBtn, editBtn, deleteBtn;
     @FXML
     private MenuItem editItem, deleteItem;
+    @FXML
+    private TextArea areaText;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -468,10 +475,57 @@ public class DB_GUI_Controller implements Initializable {
     } else{
             statusLabel.setText("No user selected to copy");
         }
-}
+    }
 
-private String generateUniqueEmail(String originalEmail) {
-    String [] parts = originalEmail.split("@");
+    private String generateUniqueEmail(String originalEmail) {
+    String[] parts = originalEmail.split("@");
     return parts[0] + "_copy@" + parts[1];
+    }
+
+    private String [] getData(){
+        List<String>data = new ArrayList<>();
+        for(Person p : tv.getItems()) {
+            data.add(p.getFirstName() + "," + p.getLastName() + "," + p.getDepartment() + "," + p.getMajor() + "," + p.getEmail());
+        }
+        return data.toArray(new String[0]);
+    }
+
+    @FXML
+    protected void onSavePDFButtonClicked(){
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save PDF Report");
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File f = fc.showSaveDialog(statusLabel.getScene().getWindow());
+
+        if (f != null) {
+            try{
+                writeToPDF(f.getAbsolutePath(),countStudentsByMajor());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void writeToPDF(String file, Map<String,Integer> studentCounts) throws FileNotFoundException, DocumentException {
+        Document d = new Document();
+        PdfWriter writer = PdfWriter.getInstance(d,new FileOutputStream(file));
+        d.open();
+        d.add(new Paragraph("Student Count by Major"));
+        d.add(new Paragraph("\n"));
+
+        for(Map.Entry<String, Integer> entry : studentCounts.entrySet()) {
+            d.add(new Paragraph(entry.getKey() + ": " + entry.getValue()));
+        }
+        d.close();
+        writer.close();
+    }
+
+    private Map<String, Integer> countStudentsByMajor(){
+        Map<String,Integer> counts = new HashMap<>();
+        for (Person p : tv.getItems()) {
+            String major = p.getMajor();
+            counts.put(major,counts.getOrDefault(major,0)+1);
+        }
+        return counts;
     }
 }
