@@ -70,7 +70,7 @@ public class DB_GUI_Controller implements Initializable {
     @FXML
     private Button addBtn, editBtn, deleteBtn;
     @FXML
-    private MenuItem editItem, deleteItem;
+    private MenuItem addItem, editItem, deleteItem, clearItem, copyItem;
     @FXML
     private TextArea areaText;
 
