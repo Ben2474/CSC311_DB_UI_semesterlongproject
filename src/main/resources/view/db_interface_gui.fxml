@@ -67,16 +67,16 @@
                                 <MenuItem mnemonicParsing="false" onAction="#darkTheme" styleClass="menu_items" text="DARK THEME" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" styleClass="menu_options" text="About">
-                            <items>
-                                <MenuItem mnemonicParsing="false" onAction="#displayAbout" styleClass="menu_items" text="Open" />
-                            </items>
-                        </Menu>
                         <Menu mnemonicParsing="false" styleClass="menu_options" text="Data">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#importCSV" styleClass="menu_items" text="Import CSV" />
                                 <MenuItem mnemonicParsing="false" onAction="#exportCSV" styleClass="menu_items" text="Export CSV" />
                                 <MenuItem mnemonicParsing="false" onAction="#onSavePDFButtonClicked" styleClass="menu_items" text="Generate PDF Report" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" styleClass="menu_options" text="About">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#displayAbout" styleClass="menu_items" text="Open" />
                             </items>
                         </Menu>
                     </menus>
@@ -94,6 +94,14 @@
                                 </ImageView>
                             </children>
                         </AnchorPane>
+                  <ImageView fitHeight="200.0" fitWidth="200.0">
+                     <image>
+                        <Image url="@../images/fsc.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets top="120.0" />
+                     </VBox.margin>
+                  </ImageView>
                     </children>
                 </VBox>
             </left>

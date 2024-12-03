@@ -69,7 +69,7 @@
                         <Font name="American Typewriter" size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="statusLabel"/>
+                <Label fx:id="statusLabel" />
             </children></VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
             <children>
@@ -83,12 +83,12 @@
                 <Font name="American Typewriter" size="18.0" />
             </font>
         </Button>
-        <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="210.0" style="-fx-background-color: RED; -fx-border-color: BLACK;" styleClass="login_button" text="Sign Up" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="7">
+        <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="210.0" style="-fx-background-color: #017071; -fx-border-color: BLACK;" styleClass="login_button" text="Sign Up" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="7">
             <font>
                 <Font name="American Typewriter" size="18.0" />
             </font>
         </Button>
-        <TextField  fx:id="userName" prefHeight="28.0" prefWidth="413.0" promptText="Username" style="-fx-border-color: BLACK;" styleClass="login_text_field" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+        <TextField fx:id="userName" prefHeight="28.0" prefWidth="413.0" promptText="Username" style="-fx-border-color: BLACK;" styleClass="login_text_field" GridPane.columnIndex="3" GridPane.rowIndex="3" />
         <PasswordField fx:id="password" prefHeight="2.0" prefWidth="216.0" style="-fx-border-color: BLACK;" styleClass="login_password_field" GridPane.columnIndex="3" GridPane.rowIndex="5" />
     </children>
 </GridPane>
