@@ -94,14 +94,14 @@
                                 </ImageView>
                             </children>
                         </AnchorPane>
-                  <ImageView fitHeight="200.0" fitWidth="200.0">
-                     <image>
-                        <Image url="@../images/fsc.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets top="120.0" />
-                     </VBox.margin>
-                  </ImageView>
+                        <ImageView fitHeight="200.0" fitWidth="200.0">
+                            <image>
+                                <Image url="@../images/fsc.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="120.0" />
+                            </VBox.margin>
+                        </ImageView>
                     </children>
                 </VBox>
             </left>

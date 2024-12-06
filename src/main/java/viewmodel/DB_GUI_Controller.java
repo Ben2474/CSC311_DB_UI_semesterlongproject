@@ -462,24 +462,24 @@ public class DB_GUI_Controller implements Initializable {
         if (p != null){
             tv.getSelectionModel().clearSelection();
             Person copiedPerson = new Person(
-        p.getFirstName() +"_copy",
+                    p.getFirstName() +"_copy",
                     p.getLastName() +"_copy",
                     p.getDepartment(),
                     p.getMajor(),
                     generateUniqueEmail(p.getEmail()),
-                            p.getImageURL());
-        cnUtil.insertUser(copiedPerson);
-        data.add(copiedPerson);
-        statusLabel.setText("Copied user successfully");
-        tv.refresh();
-    } else{
+                    p.getImageURL());
+            cnUtil.insertUser(copiedPerson);
+            data.add(copiedPerson);
+            statusLabel.setText("Copied user successfully");
+            tv.refresh();
+        } else{
             statusLabel.setText("No user selected to copy");
         }
     }
 
     private String generateUniqueEmail(String originalEmail) {
-    String[] parts = originalEmail.split("@");
-    return parts[0] + "_copy@" + parts[1];
+        String[] parts = originalEmail.split("@");
+        return parts[0] + "_copy@" + parts[1];
     }
 
     private String [] getData(){

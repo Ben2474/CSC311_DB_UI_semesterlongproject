@@ -108,7 +108,7 @@
 /* The main scrollbar **track** CSS class  */
 .table-view .scroll-bar:horizontal .track,
 .table-view .scroll-bar:vertical .track{
-	-fx-background-color: transparent;
+	-fx-background-color: black;
 	-fx-border-color:derive( #025751,80%);
 
 	-fx-background-radius: 2em;

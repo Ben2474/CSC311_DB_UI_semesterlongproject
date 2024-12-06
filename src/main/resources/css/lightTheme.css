@@ -1,5 +1,5 @@
 .db_btn {
-    -fx-background-color: #white;
+    -fx-background-color: #FFFFFF;
     -fx-cursor: hand;
     -fx-font-family: "Arial";
     -fx-font-size: 15px;
@@ -22,13 +22,13 @@
 }
 
 .table_columns {
-    -fx-background-color: white;
+    -fx-background-color: #FFFFFF;
     -fx-text-fill: black;
 }
 
 
 .menu_bar {
-    -fx-background-color:  #white;
+    -fx-background-color:  #FFFFFF;
 }
 
 .anchor_pane {

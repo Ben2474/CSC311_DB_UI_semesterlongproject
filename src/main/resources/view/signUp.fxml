@@ -71,7 +71,7 @@
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Button>
-                <Button fx:id="goBackBtn" alignment="CENTER" mnemonicParsing="false" onAction="#goBack" prefHeight="40.0" prefWidth="237.0" style="-fx-background-color: Green; -fx-border-color: BLACK;" text=" Login" textFill="WHITE">
+                <Button fx:id="goBackBtn" alignment="CENTER" mnemonicParsing="false" onAction="#goBack" prefHeight="40.0" prefWidth="237.0" style="-fx-background-color: #046b66; -fx-border-color: BLACK;" text="Already have an account, click here" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
