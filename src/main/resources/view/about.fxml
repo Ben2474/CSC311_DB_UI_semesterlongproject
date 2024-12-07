@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #017071;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextArea blendMode="COLOR_BURN" editable="false" layoutX="6.0" layoutY="51.0" prefHeight="343.0" prefWidth="584.0" style="-fx-border-color: transparent;" text="This program demonstrates students registering their major by filling in their information and adding it into the system. There are other features like editing, deleting, and clearing information. There is also features that change the appearance of the program,  importing and exporting data by CSV, and uploading profile pictures. Overall, this is the overview of this program. " wrapText="true">
          <font>

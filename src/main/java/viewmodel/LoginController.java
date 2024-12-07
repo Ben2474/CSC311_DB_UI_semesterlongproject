@@ -8,6 +8,7 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -25,6 +26,8 @@ public class LoginController {
     private PasswordField password;
     @FXML
     private Label statusLabel;
+    @FXML
+    private Button loginBtn;
 
     private static final String adminUsername = "csc311admin";
     private static final String adminPassword = "farmingdale@26";
@@ -46,6 +49,15 @@ public class LoginController {
         fadeOut2.setFromValue(0);
         fadeOut2.setToValue(1);
         fadeOut2.play();
+
+        loginBtn.setDisable(true);
+        userName.textProperty().addListener((obs, oldVal, newVal) -> validateLoginForm());
+        password.textProperty().addListener((obs, oldVal, newVal) -> validateLoginForm());
+    }
+
+    private void validateLoginForm(){
+        boolean isValid = !userName.getText().isEmpty() && !password.getText().isEmpty();
+        loginBtn.setDisable(!isValid);
     }
 
     private static BackgroundImage createImage(String url) {

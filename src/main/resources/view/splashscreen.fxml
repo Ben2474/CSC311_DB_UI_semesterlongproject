@@ -46,12 +46,12 @@
                   <Insets />
                </GridPane.margin>
             </ImageView>
-            <ImageView blendMode="COLOR_BURN" fitHeight="179.0" fitWidth="195.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <ImageView blendMode="COLOR_BURN" fitHeight="261.0" fitWidth="295.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <image>
                   <Image url="@../images/Screenshot_2024-12-05_at_9.47.17_PM-removebg-preview.png" />
                </image>
                <GridPane.margin>
-                  <Insets left="70.0" />
+                  <Insets left="20.0" />
                </GridPane.margin>
             </ImageView>
          </children>
