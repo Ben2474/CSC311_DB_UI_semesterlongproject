@@ -73,6 +73,12 @@
     -fx-background-color: lightBlue;
     -fx-text-fill: grey;
 }
+
+.table-view, .table-view:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0px;
+}
+
 .table-view .column-header,
 .table-view .column-header-background .filler {
     -fx-background-color:  #046b66;
